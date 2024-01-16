@@ -46,7 +46,7 @@ def update_program(owner, repo, file):
         print(Fore.MAGENTA + '[!]' + Fore.GREEN + 'Установлена самая последняя версия')
 
 if __name__ == '__main__':
-    update_program('POHel', 'mini-ddos-programm', 'main.zip')
+    update_program('POHel', 'The-word-cipher', 'main.zip')
 time.sleep(1)
 
 print(Fore.BLUE + 'Определяю OS...')
