@@ -11,7 +11,7 @@ import colorama
 from colorama import Fore
 colorama.init()
 print('Запуск программы...')
-version = 'v2.0'
+version = 'v2.5'
 print(version)
 print(Fore.GREEN + 'Created by SKATT')
 time.sleep(1)
@@ -34,15 +34,21 @@ def update_program(owner, repo, file):
     response = requests.get(VERSION_URL.format(owner=owner, repo=repo)).json()
     latest_version = response['tag_name']
 
-    if latest_version >= version:
+    if latest_version > version:
         print(Fore.MAGENTA + '[!]' + Fore.YELLOW + 'Доступно обновление')
         print(Fore.BLUE + 'Загружаю обновление')
         download_url = DOWNLOAD_URL.format(owner=owner, repo=repo, file=file)
         r = requests.get(download_url, allow_redirects=True)
         open(file, 'wb').write(r.content)
         print(Fore.MAGENTA + '[!]' + Fore.GREEN + 'Обновление Загружено')
+        if os.name == 'nt':
+            os.system('tar -xf main.zip')
+            print(f'{Fore.RED}!!!Чтобы запустить новую версию, просто закройте эту программу и найдите папку The-word-cipher-main!!!')
+            time.sleep(4)
+        else:
+            os.system('unzip main.zip')
 
-    if latest_version <= version:
+    if version >= latest_version:
         print(Fore.MAGENTA + '[!]' + Fore.GREEN + 'Установлена самая последняя версия')
 
 if __name__ == '__main__':
@@ -69,7 +75,7 @@ while True:
                               '-': 'с', '_': 'т', ':': 'у', ';': 'ф', '"': 'х', '[': 'ц', '{': 'ч', ']': 'ш', '√': 'щ', '✔': 'Ъ', '♟': 'ы', '☠': 'ь', '☣': 'э', '❄': 'ю', '☢': 'я'}
             decrypted_word = ''.join(
                 [decryption_key[letter] if letter in decryption_key else letter for letter in encrypted_word])
-            print("Расшифрованное слово:", decrypted_word)
+            print(f"Расшифрованное слово: {Fore.RED}", decrypted_word, f'{Fore.BLUE}')
 
         elif whatru == '2':
             word = input("Введите слово: ")  # Получаем слово от пользователя
@@ -78,7 +84,7 @@ while True:
                               'с': '-', 'т': '_', 'у': ':', 'ф': ';', 'х': '"', 'ц': '[', 'ч': '{', 'ш': ']', 'щ': '√', 'Ъ': '✔', 'ы': '♟', 'ь': '☠', 'э': '☣', 'ю': '❄', 'я': '☢'}
             encrypted_word = ''.join(
                 [encryption_key[letter] if letter in encryption_key else letter for letter in word.lower()])
-            print("Зашифрованное слово:", encrypted_word)
+            print(f"Зашифрованное слово: {Fore.RED}", encrypted_word, f'{Fore.BLUE}')
 
     elif lang == 'ENG':
         whateng = input('decoding or encryption? [1;2]')
@@ -91,7 +97,7 @@ while True:
             decrypted_word = ''.join(
                 [decryption_key[letter] if letter in decryption_key else letter for letter in encrypted_word])
 
-            print("The deciphered word:", decrypted_word)
+            print(f"The deciphered word: {Fore.RED}", decrypted_word, f'{Fore.BLUE}')
 
         elif whateng == '2':
             word = input("Enter the word: ")
@@ -99,4 +105,4 @@ while True:
 
             encrypted_word = ''.join([encryption_key[letter] if letter in encryption_key else letter for letter in word.lower()])
 
-            print("The encrypted word:", encrypted_word)
+            print(f"The encrypted word: {Fore.RED}", encrypted_word, f'{Fore.BLUE}')
